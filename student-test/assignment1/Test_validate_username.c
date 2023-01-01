@@ -19,8 +19,7 @@ void test_validate_my_username()
      * config file and my_username() functions are setup properly
      */
     //TEST_ASSERT_TRUE_MESSAGE(false,"AESD students, please fix me!");
-    const char* s1 = my_username();
-    const char* s2 = malloc_username_from_conf_file();
-    int result = strcmp(s2, s1);
-    TEST_ASSERT_TRUE_MESSAGE(result == 0, "Student name is not correct");
+    char const *user_name = my_username();
+    char const *user_name_from_file = malloc_username_from_conf_file();
+    TEST_ASSERT_EQUAL_STRING_MESSAGE(user_name_from_file, user_name,"both the strings are equal");
 }
