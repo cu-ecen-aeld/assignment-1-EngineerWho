@@ -1,33 +1,25 @@
-#!/bin/sh
-
-#Exits with return value 1 error and print statements if any of the parameters above were not specified
-if [ $# -ne 2 ]
-then
-	echo "Required two parameters"
+if [ $# != 2 ]; then
+	echo "Usage: $0 <writefile> <writestr>"
 	exit 1
 fi
 
-WRITE_FILE=$1
-WRITE_STRING=$2
-WRITE_FILE_DIR_NAME="$(dirname ${WRITE_FILE})"
+writefile=$1
+writestr=$2
 
-echo "WRITE_FILE: ${WRITE_FILE}"
-echo "WRITE_STRING: ${WRITE_STRING}"
-echo "WRITE_FILE_DIR_NAME: ${WRITE_FILE_DIR_NAME}"
-
-if [ ! -z "${WRITE_FILE_DIR_NAME}" ] && [ ! -d "${WRITE_FILE_DIR_NAME}" ]
-then
-	mkdir -p "${WRITE_FILE_DIR_NAME}"
-	if [ $? -ne 0 ]
-	then
-		echo "Cannot create directory ${WRITE_FILE_DIR_NAME }"
-    	exit 1
+# Create the target directory if needed.
+writedir=$(dirname "$writefile")
+if [ ! -d "$writedir" ]; then
+	mkdir -p "$writedir"
+	if [ $? != 0 ]; then
+		print "Error creating directory '$writedir'"
+		exit 1
 	fi
 fi
 
-echo ${WRITE_STRING} > ${WRITE_FILE} 
-if [ $? -ne 0 ]
-then
-	echo "Cannot modify file ${WRITE_FILE}"
+# Create the file.
+echo "$writestr" > "$writefile"
+if [ $? != 0 ]; then
+	print "Error creating file '$writefile'"
 	exit 1
 fi
+
