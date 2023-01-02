@@ -1,24 +1,28 @@
-#! /bin/bash
+#!/bin/sh
 
-filedir=$1
-searchstr=$2
+#Accepts the following runtime arguments: the first argument is a path to a directory on the filesystem, 
+#referred to below as filesdir; the second argument is a text string which will be searched within these files, referred to below as searchstr
 
-if [ filedir == "" ]; then
-    echo "Please enter the directory path"
-    exit 1
+#Exits with return value 1 error and print statements if any of the parameters above were not specified
+if [ $# -ne 2 ]
+then
+	echo "Required two parameters"
+	exit 1
 fi
 
-if [ searchstr == "" ]; then
-    echo "Please enter the string to search"
-    exit 1
+DIR_NAME=$1
+MATCHING_STRING=$2
+
+#Exits with return value 1 error and print statements if filesdir does not represent a directory on the filesystem
+if [ ! -d "${DIR_NAME}" ]
+then
+	echo "Derectory ${DIR_NAME} is not found"
+	exit 1
 fi
 
-if [ ! -d "$filedir" ]; then
-    echo "Directory does not exist"
-    exit 1
-fi
+NUMBER_OF_FILES="$(find "${DIR_NAME}" -type f | wc -l)"
+NUMBER_OF_MATCHING_LINES="$(grep -r "${MATCHING_STRING}" "${DIR_NAME}" | wc -l)"
 
-num_all_files=$(find $filedir -type f | wc -l)
-num_matching_lines=$(grep -r $searchstr $filedir | wc -l)
-
-echo "The number of files are $num_all_files and the number of matching lines are $num_matching_lines"
+#Prints a message "The number of files are X and the number of matching lines are Y" where X is the number of files in the directory 
+#and all subdirectories and Y is the number of matching lines found in respective files.
+echo "The number of files are ${NUMBER_OF_FILES} and the number of matching lines are ${NUMBER_OF_MATCHING_LINES}"
