@@ -1,21 +1,24 @@
-#!/bin/bash
+#! /bin/bash
 
-filesdir=$1
+filedir=$1
 searchstr=$2
 
-if [ -z $filesdir ] || [ -z $searchstr ]
-then
-	echo "filesdir and searchstr should be provided as args"
-	exit 1
+if [ filedir == "" ]; then
+    echo "Please enter the directory path"
+    exit 1
 fi
 
-if [ ! -d $filesdir ]
-then
-	echo "filesdir is not a directory"
-	exit 1
+if [ searchstr == "" ]; then
+    echo "Please enter the string to search"
+    exit 1
 fi
 
-x=$(find $filesdir -type f | wc -l)
-y=$(grep -r $searchstr $filesdir | wc -l)
+if [ ! -d "$filedir" ]; then
+    echo "Directory does not exist"
+    exit 1
+fi
 
-echo "The number of files are $x and the number of matching lines are $y"
+num_all_files=$(find $filedir -type f | wc -l)
+num_matching_lines=$(grep -r $searchstr $filedir | wc -l)
+
+echo "The number of files are $num_all_files and the number of matching lines are $num_matching_lines"
