@@ -23,5 +23,5 @@ echo "$writestr" > "$writefile"
 if [ $? != 0 ]; then
 	print "Error creating file '$writefile'"
 	exit 1
-fi
+fi 
 
