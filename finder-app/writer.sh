@@ -1,14 +1,25 @@
-#!/bin/bash
+#! /bin/bash
 
 writefile=$1
 writestr=$2
 
-if [ -z $writefile ] || [ -z $writestr ]
-then
-	echo privide writefile and writestr as args
-	exit 1
+
+
+if [[ "$writefile" == "" ]] || [[ "$writestr" == "" ]]; then
+    echo "Please enter the file path and the string to write"
+    exit 1
 fi
 
-mkdir -p $(dirname $writefile)
+mkdir -p $(dirname "$writefile")
 
-echo $writestr > $writefile
+if [ $? != 0 ]; then
+    echo "Error creating file"
+    exit 1
+fi
+
+echo "$writestr" > "$writefile"
+
+if [ $? != 0 ]; then
+    echo "Error writing to file"
+    exit 1
+fi
