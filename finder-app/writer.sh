@@ -11,4 +11,4 @@ fi
 
 mkdir -p $(dirname $writefile)
 
-echo $writestr > $writefile 
+echo $writestr > $writefile  
